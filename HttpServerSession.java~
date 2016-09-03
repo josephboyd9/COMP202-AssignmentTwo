@@ -1,0 +1,8 @@
+
+class HttpServerSession extends Thread{
+    private socket;
+
+    HttpServerSession(ServerSocket s){
+	socket = s;
+    }
+}
