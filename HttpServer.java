@@ -27,12 +27,21 @@ class HttpServerSession extends Thread{
 	try{
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    /* when the client disconnects, readLine returns null */
-	    while(request==null)
-		request = reader.readLine();
+	    request = reader.readLine();
 	    String[] parts = request.split(" ");
 	    if(parts.length==3 && parts[0].compareTo("GET")==0){
 		String filename = parts[1].substring(1);
 		System.out.println(filename);
+	    }else{
+		socket.close();
+		}
+	    while(true){
+		String line = reader.readLine();
+		if(line == null) {
+		    /* handle EOF */
+		}
+		if(line.compareTo("") == 0)
+		    break;
 	    }
 	}catch(Exception e){
 	    System.err.println("ServerSession exception: "+e);
