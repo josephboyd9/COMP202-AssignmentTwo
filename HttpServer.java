@@ -29,7 +29,11 @@ class HttpServerSession extends Thread{
 	    /* when the client disconnects, readLine returns null */
 	    while(request==null)
 		request = reader.readLine();
-	    System.out.println(request);
+	    String[] parts = request.split(" ");
+	    if(parts.length==3 && parts[0].compareTo("GET")==0){
+		String filename = parts[1].substring(1);
+		System.out.println(filename);
+	    }
 	}catch(Exception e){
 	    System.err.println("ServerSession exception: "+e);
 	}
