@@ -11,6 +11,7 @@ class HttpServer{
 	    session.start();
 	    String ip = client.getInetAddress().getHostAddress();
 	    System.out.println("Connection established at ip: " + ip);
+	    while(session.isAlive());
 	    client.close();
 	}catch(ArrayIndexOutOfBoundsException e){
 	    System.err.println("Usage: java HttpServer <port>");
@@ -21,15 +22,14 @@ class HttpServer{
 }
 class HttpServerSession extends Thread{
     private Socket socket;
-    private String request;
+    private String request = null;
     public void run(){
 	try{
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    /* when the client disconnects, readLine returns null */
-	    if(reader.readLine()!=null){
+	    while(request==null)
 		request = reader.readLine();
-		System.out.println(request);
-	    }
+	    System.out.println(request);
 	}catch(Exception e){
 	    System.err.println("ServerSession exception: "+e);
 	}
